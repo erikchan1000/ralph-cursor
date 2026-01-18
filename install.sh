@@ -8,7 +8,7 @@ set -euo pipefail
 
 PROJECT_DIR="$(pwd)"
 SCRIPTS_DIR="$PROJECT_DIR/.cursor/ralph-scripts"
-RAW_BASE="https://raw.githubusercontent.com/erikchan1000/ralph-cursor/main/scripts"
+RAW_BASE="https://raw.githubusercontent.com/erikchan1000/ralph-cursor/master/scripts"
 
 echo "Installing Ralph scripts into: $SCRIPTS_DIR"
 mkdir -p "$SCRIPTS_DIR"
