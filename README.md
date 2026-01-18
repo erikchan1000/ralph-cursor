@@ -20,6 +20,8 @@ Note: The installer places all Ralph scripts under `.cursor/ralph-scripts/` in y
 - `scripts/stream-parser.sh` — Parses `--output-format stream-json` from the agent
 - `scripts/init-ralph.sh` — Bootstraps `.ralph` files in a project
 
+(When installed into a project, these are available under `.cursor/ralph-scripts/`.)
+
 ## Requirements
 
 - bash 3.2+ (macOS default is fine)
@@ -51,13 +53,13 @@ From a project repo with `RALPH_TASK.md` and git:
 
 ```bash
 # Interactive (recommended)
-./scripts/ralph-setup.sh
+./.cursor/ralph-scripts/ralph-setup.sh
 
 # Or non-interactive loop
-./scripts/ralph-loop.sh -y
+./.cursor/ralph-scripts/ralph-loop.sh -y
 
 # Single iteration
-./scripts/ralph-once.sh
+./.cursor/ralph-scripts/ralph-once.sh
 ```
 
 Monitor progress:
@@ -67,6 +69,76 @@ tail -f .ralph/activity.log
 ```
 
 Note: During runs, updates are mirrored to your terminal in real time; tailing the log is optional.
+
+## PRD (RALPH_TASK.md) conventions
+
+- Location: place `RALPH_TASK.md` at the project root.
+- Completion rule: the loop treats the task as complete when there are no unchecked checklist items remaining.
+  - Counted items are markdown list entries that start with `-`, `*`, or `1.` etc. and contain `[ ]` or `[x]`, e.g. `- [ ] Implement foo`.
+- Loop behavior tie-in: Ralph will read `RALPH_TASK.md`, then work on the next unchecked criterion (look for `[ ]`) and expects you/the agent to change it to `[x]` when done. This mirrors the prompt printed by the loop.
+- Recommended structure:
+  - Optional front matter:
+    - `task`: short description of the task
+    - `test_command`: command to validate success (e.g., `"npm test"`). The loop doesn’t execute it automatically; it’s a convention for humans/agents to follow.
+  - Sections: Context/PRD (or Task), Goals, Non-goals, Constraints, Success Criteria (as checkboxes), Test Plan, and Notes.
+- Visibility: the first ~30 lines of `RALPH_TASK.md` are printed at startup for quick context.
+
+Example template:
+
+```markdown
+---
+task: "Implement feature X end-to-end"
+test_command: "npm test"
+---
+
+# PRD
+
+## Context
+Brief background and scope.
+
+## Goals
+- Clear user-facing goals.
+
+## Non-goals
+- Out-of-scope items.
+
+## Constraints
+- Tech or process limits.
+
+## Success Criteria
+1. [ ] Backend API implemented
+2. [ ] Frontend UI implemented
+3. [ ] E2E happy path works
+4. [ ] Tests pass via "npm test"
+```
+
+Minimal example aligned with the loop prompt:
+
+```markdown
+---
+task: "Tighten CI and fix flaky test"
+---
+
+# Task
+
+## Success Criteria
+1. [ ] Fix flaky test in api/users.test.ts
+2. [ ] Add CI step to run tests on PR
+3. [ ] Document steps in README
+
+## Context
+Link to failing runs and notes here.
+```
+
+## Example RALPH_TASK.md (from @python/RALPH_TASK.md)
+
+```markdown
+# PRD
+
+- [x] Goal: Verify Ralph plugin installs via README one-liner.
+- [x] Result: Installed scripts into .cursor/ralph-scripts successfully.
+- [x] Next: Run ./.cursor/ralph-scripts/init-ralph.sh if needed.
+```
 
 ## Cross-platform notes
 

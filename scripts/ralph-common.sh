@@ -351,7 +351,7 @@ spinner() {
   local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
   local i=0
   while true; do
-    printf "\r  🐛 Agent working... %s  (watch: tail -f %s/.ralph/activity.log)" "${spin:i++%${#spin}:1}" "$workspace" >&2
+    printf "\r  🐛 Agent working... %s  (updates mirrored here; optional: tail -f %s/.ralph/activity.log)" "${spin:i++%${#spin}:1}" "$workspace" >&2
     sleep 0.1
   done
 }
@@ -414,7 +414,7 @@ run_iteration() {
   echo "Workspace: $workspace" >&2
   echo "Model:     $MODEL" >&2
   echo "Agent:     $agent_bin" >&2
-  echo "Monitor:   tail -f $workspace/.ralph/activity.log" >&2
+  echo "Updates:   mirrored to this terminal (optional: tail -f $workspace/.ralph/activity.log)" >&2
   echo "" >&2
 
   # Log session start to progress.md
