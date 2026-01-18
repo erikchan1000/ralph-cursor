@@ -45,15 +45,15 @@ MODELS=(
 
 # Select model using gum or fallback
 select_model() {
-  # Always print available models for visibility (useful in logs/CI)
-  echo ""
-  echo "Available models:"
+  # Always print available models for visibility (send to stderr to avoid capturing in $(...))
+  echo "" >&2
+  echo "Available models:" >&2
   local i=1
   for m in "${MODELS[@]}"; do
-    echo "  $i) $m"
+    echo "  $i) $m" >&2
     ((i++))
   done
-  echo ""
+  echo "" >&2
   if [[ "$HAS_GUM" == "true" ]]; then
     local selected
     selected=$(gum choose --header "Select model:" "${MODELS[@]}")
@@ -63,18 +63,18 @@ select_model() {
     fi
     echo "$selected"
   else
-    echo ""
-    echo "Select model:"
+    echo "" >&2
+    echo "Select model:" >&2
     local i=1
     for m in "${MODELS[@]}"; do
       if [[ "$m" == "Custom..." ]]; then
-        echo "  $i) Custom (enter manually)"
+        echo "  $i) Custom (enter manually)" >&2
       else
-        echo "  $i) $m"
+        echo "  $i) $m" >&2
       fi
       ((i++))
     done
-    echo ""
+    echo "" >&2
     read -p "Choice [1]: " choice
     choice="${choice:-1}"
     
@@ -112,29 +112,29 @@ select_options() {
     "Open PR when complete"
   )
   
-  # Always print options list for visibility (useful in logs/CI)
-  echo ""
-  echo "Options (choose any):"
+  # Always print options list for visibility (stderr to avoid capturing in $(...))
+  echo "" >&2
+  echo "Options (choose any):" >&2
   local i=1
   for opt in "${options[@]}"; do
-    echo "  $i) $opt"
+    echo "  $i) $opt" >&2
     ((i++))
   done
-  echo ""
+  echo "" >&2
   if [[ "$HAS_GUM" == "true" ]]; then
     # gum choose --no-limit returns newline-separated selections
     local selected
     selected=$(gum choose --no-limit --header "Options (space to select, enter to confirm):" "${options[@]}") || true
     echo "$selected"
   else
-    echo ""
-    echo "Options (enter numbers separated by spaces, or press Enter to skip):"
+    echo "" >&2
+    echo "Options (enter numbers separated by spaces, or press Enter to skip):" >&2
     local i=1
     for opt in "${options[@]}"; do
-      echo "  $i) $opt"
+      echo "  $i) $opt" >&2
       ((i++))
     done
-    echo ""
+    echo "" >&2
     read -p "Select options [none]: " choices
     
     local selected=""
