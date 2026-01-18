@@ -45,6 +45,15 @@ MODELS=(
 
 # Select model using gum or fallback
 select_model() {
+  # Always print available models for visibility (useful in logs/CI)
+  echo ""
+  echo "Available models:"
+  local i=1
+  for m in "${MODELS[@]}"; do
+    echo "  $i) $m"
+    ((i++))
+  done
+  echo ""
   if [[ "$HAS_GUM" == "true" ]]; then
     local selected
     selected=$(gum choose --header "Select model:" "${MODELS[@]}")
@@ -103,6 +112,15 @@ select_options() {
     "Open PR when complete"
   )
   
+  # Always print options list for visibility (useful in logs/CI)
+  echo ""
+  echo "Options (choose any):"
+  local i=1
+  for opt in "${options[@]}"; do
+    echo "  $i) $opt"
+    ((i++))
+  done
+  echo ""
   if [[ "$HAS_GUM" == "true" ]]; then
     # gum choose --no-limit returns newline-separated selections
     local selected
