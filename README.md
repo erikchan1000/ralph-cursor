@@ -6,7 +6,7 @@ Portable Ralph CLI scripts for macOS and Linux. These scripts run Cursor's agent
 
 ```bash
 cd your-project
-curl -fsSL https://raw.githubusercontent.com/erikchan1000/ralph-cursor/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/erikchan1000/ralph-cursor/master/install.sh | bash
 ```
 
 ## Layout
