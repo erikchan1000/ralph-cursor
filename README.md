@@ -9,6 +9,8 @@ cd your-project
 curl -fsSL https://raw.githubusercontent.com/erikchan1000/ralph-cursor/master/install.sh | bash -s -- --install-deps
 ```
 
+Note: The installer places all Ralph scripts under `.cursor/ralph-scripts/` in your project directory (creating `.cursor` if needed).
+
 ## Layout
 
 - `scripts/ralph-setup.sh` — Interactive setup + run loop (gum UI if available)
@@ -63,6 +65,8 @@ Monitor progress:
 ```bash
 tail -f .ralph/activity.log
 ```
+
+Note: During runs, updates are mirrored to your terminal in real time; tailing the log is optional.
 
 ## Cross-platform notes
 

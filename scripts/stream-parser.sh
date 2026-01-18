@@ -84,6 +84,8 @@ log_activity() {
   local emoji=$(get_health_emoji $tokens)
 
   echo "[$timestamp] $emoji $message" >> "$RALPH_DIR/activity.log"
+  # Mirror to terminal (stderr) without interfering with stdout signals
+  printf "\r\033[K[%s] %s %s\n" "$timestamp" "$emoji" "$message" >&2
 }
 
 # Log to errors.log
@@ -92,6 +94,7 @@ log_error() {
   local timestamp=$(date '+%H:%M:%S')
 
   echo "[$timestamp] $message" >> "$RALPH_DIR/errors.log"
+  printf "\r\033[K[%s] ❗ %s\n" "$timestamp" "$message" >&2
 }
 
 # Check and log token status
@@ -111,6 +114,7 @@ log_token_status() {
 
   local breakdown="[read:$((BYTES_READ/1024))KB write:$((BYTES_WRITTEN/1024))KB assist:$((ASSISTANT_CHARS/1024))KB shell:$((SHELL_OUTPUT_CHARS/1024))KB]"
   echo "[$timestamp] $emoji $status_msg $breakdown" >> "$RALPH_DIR/activity.log"
+  printf "\r\033[K[%s] %s %s %s\n" "$timestamp" "$emoji" "$status_msg" "$breakdown" >&2
 }
 
 # Check for gutter conditions
